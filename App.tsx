@@ -123,9 +123,7 @@ export default function App() {
       <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-fit px-4">
         <div className="bg-[#0a0c14]/40 backdrop-blur-2xl border border-white/10 px-8 py-3 rounded-full flex items-center gap-10 shadow-2xl">
           <div className="flex items-center gap-3">
-            <div className="w-6 h-6 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-md flex items-center justify-center">
-              <Sparkles size={14} className="text-white" />
-            </div>
+            <img src="/lite.png" alt="Aura Lite" className="h-8 w-auto" />
             <span className="font-bold tracking-tight text-base">Aura Lite</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
@@ -532,9 +530,7 @@ export default function App() {
            <div className="flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3 justify-center md:justify-start">
-                  <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-                    <Sparkles size={18} className="text-white" />
-                  </div>
+                  <img src="/lite.png" alt="Aura Lite" className="h-10 w-auto" />
                   <span className="text-2xl font-bold tracking-tighter">Aura Lite</span>
                 </div>
                 <p className="text-gray-500 text-sm font-light">
