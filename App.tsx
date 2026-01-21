@@ -277,68 +277,55 @@ export default function App() {
       </section>
 
       {/* Ce que tu obtiens Section */}
-      <section className="py-24 container mx-auto px-4 max-w-6xl">
+      <section className="py-24 container mx-auto px-4 max-w-4xl">
         <SectionHeader title="Ce que tu obtiens" subtitle="Les clés pour maîtriser l'IA et l'automatisation." />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
+        <div className="space-y-4 mt-16">
           {[
             {
               title: "Maîtrise opérationnelle de n8n",
               description: "Construis et déploie des workflows d'automatisation prêts pour la production.",
-              icon: <Bot size={28} />,
-              gradient: "from-blue-500 to-cyan-500",
-              highlight: "Workflows Production-Ready"
+              icon: <Bot size={20} />,
+              color: "from-blue-500 to-cyan-500"
             },
             {
               title: "Fondamentaux IA orientés usage réel",
               description: "Comprends les LLMs et leur application concrète dans tes projets d'automatisation.",
-              icon: <Brain size={28} />,
-              gradient: "from-purple-500 to-pink-500",
-              highlight: "Approche Pratique"
+              icon: <Brain size={20} />,
+              color: "from-purple-500 to-pink-500"
             },
             {
               title: "Boîte à outils IA & automatisation",
               description: "Accède à une collection complète de templates et outils IA intégrés.",
-              icon: <Terminal size={28} />,
-              gradient: "from-orange-500 to-red-500",
-              highlight: "Templates & Outils"
+              icon: <Terminal size={20} />,
+              color: "from-orange-500 to-red-500"
             },
             {
               title: "Templates n8n prêts pour la prod",
               description: "Des workflows agents testés et optimisés pour un déploiement immédiat.",
-              icon: <Layers size={28} />,
-              gradient: "from-green-500 to-emerald-500",
-              highlight: "Déploiement Immédiat"
+              icon: <Layers size={20} />,
+              color: "from-green-500 to-emerald-500"
             }
           ].map((item, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.15, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              className="group"
             >
-              <GlassCard className="relative h-full overflow-hidden group">
-                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${item.gradient} opacity-5 rounded-full blur-3xl group-hover:opacity-10 transition-opacity duration-500`} />
-
-                <div className="relative z-10 p-8">
-                  <div className="flex items-start justify-between mb-6">
-                    <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.gradient} bg-opacity-10 flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform duration-300`}>
-                      <div className="text-white">
-                        {item.icon}
-                      </div>
-                    </div>
-                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-gradient-to-r ${item.gradient} bg-opacity-10 text-white border border-white/10`}>
-                      {item.highlight}
-                    </span>
+              <div className="flex items-start gap-4 p-6 rounded-xl bg-white/[0.02] border border-white/5 hover:border-white/10 hover:bg-white/[0.04] transition-all duration-300">
+                <div className={`flex-shrink-0 w-12 h-12 rounded-lg bg-gradient-to-br ${item.color} bg-opacity-10 flex items-center justify-center border border-white/10 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className="text-white">
+                    {item.icon}
                   </div>
-
-                  <h4 className="text-white text-2xl font-bold mb-4 leading-tight">{item.title}</h4>
-                  <p className="text-gray-400 leading-relaxed">{item.description}</p>
-
-                  <div className={`mt-6 h-1 w-0 group-hover:w-full bg-gradient-to-r ${item.gradient} transition-all duration-500 rounded-full`} />
                 </div>
-              </GlassCard>
+                <div className="flex-1 min-w-0">
+                  <h4 className="text-white text-lg font-bold mb-1">{item.title}</h4>
+                  <p className="text-gray-400 text-sm leading-relaxed">{item.description}</p>
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
