@@ -276,14 +276,42 @@ export default function App() {
         </div>
       </section>
 
-      {/* Section 2: Bullets Content */}
+      {/* Ce que tu obtiens Section */}
       <section className="py-24 container mx-auto px-4 max-w-7xl">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <SectionHeader title="Ce que tu obtiens" subtitle="Les clés pour maîtriser l'IA et l'automatisation." />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
           {[
-            { text: "Logique d'Agent autonome au coeur de n8n", icon: <Bot size={20} /> },
-            { text: "Compréhension réelle de la structure des LLM", icon: <Brain size={20} /> },
-            { text: "Construction de Tool-Kits pour vos automatisations", icon: <Terminal size={20} /> },
-            { text: "Transition vers des systèmes multi-agents complexes", icon: <Activity size={20} /> }
+            {
+              title: "Maîtrise opérationnelle de n8n",
+              description: "Construis et déploie des workflows d'automatisation prêts pour la production.",
+              icon: <Bot size={24} />,
+              gradient: "from-blue-500 to-cyan-500"
+            },
+            {
+              title: "Fondamentaux IA orientés usage réel",
+              description: "Comprends les LLMs et leur application concrète dans tes projets d'automatisation.",
+              icon: <Brain size={24} />,
+              gradient: "from-purple-500 to-pink-500"
+            },
+            {
+              title: "Boîte à outils IA & automatisation",
+              description: "Accède à une collection complète de templates et outils IA intégrés.",
+              icon: <Terminal size={24} />,
+              gradient: "from-orange-500 to-red-500"
+            },
+            {
+              title: "Templates n8n prêts pour la prod",
+              description: "Des workflows agents testés et optimisés pour un déploiement immédiat.",
+              icon: <Layers size={24} />,
+              gradient: "from-green-500 to-emerald-500"
+            },
+            {
+              title: "Accès à la plateforme Aura",
+              description: "Modules Aura Lite exclusifs pour accélérer ton apprentissage agentique.",
+              icon: <Zap size={24} />,
+              gradient: "from-yellow-500 to-orange-500"
+            }
           ].map((item, i) => (
             <motion.div
               key={i}
@@ -292,11 +320,14 @@ export default function App() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 1, ease: [0.16, 1, 0.3, 1] }}
             >
-              <GlassCard className="h-full border-t border-t-indigo-500/10">
-                <div className="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center mb-6 border border-indigo-500/20 text-indigo-400">
-                  {item.icon}
+              <GlassCard className="h-full border-t-2 border-t-transparent hover:border-t-white/20 transition-all duration-300">
+                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${item.gradient} bg-opacity-10 flex items-center justify-center mb-6 border border-white/10`}>
+                  <div className={`bg-gradient-to-br ${item.gradient} bg-clip-text text-transparent`}>
+                    {item.icon}
+                  </div>
                 </div>
-                <p className="text-gray-200 text-base font-medium leading-relaxed">{item.text}</p>
+                <h4 className="text-white text-xl font-bold mb-3 leading-tight">{item.title}</h4>
+                <p className="text-gray-400 text-sm leading-relaxed">{item.description}</p>
               </GlassCard>
             </motion.div>
           ))}
