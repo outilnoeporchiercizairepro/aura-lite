@@ -121,9 +121,9 @@ export default function App() {
 
       {/* Navigation */}
       <nav className="fixed top-4 md:top-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-fit px-4">
-        <div className="bg-[#0a0c14]/40 backdrop-blur-2xl border border-white/10 px-4 md:px-8 py-2 md:py-3 rounded-full flex items-center gap-4 md:gap-10 shadow-2xl">
+        <div className="bg-[#0a0c14]/40 backdrop-blur-2xl border border-white/10 px-4 md:px-8 py-3 md:py-4 rounded-full flex items-center gap-4 md:gap-10 shadow-2xl">
           <div className="flex items-center">
-            <img src="/lite.png" alt="Aura Lite" className="h-8 md:h-10 w-auto object-contain" />
+            <img src="/lite.png" alt="Aura Lite" className="h-14 md:h-20 w-auto object-contain" />
           </div>
           <div className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
             <a href="#roadmap" className="hover:text-white transition-colors">Roadmap</a>
