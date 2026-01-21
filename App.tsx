@@ -255,15 +255,15 @@ export default function App() {
             { icon: <Search />, label: "Google Search", color: "from-blue-500" },
             { icon: <Slack />, label: "Slack", color: "from-purple-500" },
             { icon: <Mail />, label: "Gmail", color: "from-red-500" },
-            { icon: <Globe />, label: "Web Browsing", color: "from-emerald-500" },
-            { icon: <Database />, label: "PostgreSQL", color: "from-indigo-500" },
-            { icon: <Code2 />, label: "Python/JS", color: "from-yellow-500" },
+            { icon: <Globe />, label: "Extraction Web", color: "from-emerald-500" },
+            { icon: <Database />, label: "Base de données", color: "from-indigo-500" },
+            { icon: <Code2 />, label: "Language IA", color: "from-yellow-500" },
             { icon: <MessageSquare />, label: "WhatsApp", color: "from-green-500" },
-            { icon: <Layers />, label: "Vector DB", color: "from-orange-500" },
+            { icon: <Layers />, label: "Vecteurs", color: "from-orange-500" },
             { icon: <Command />, label: "CRM", color: "from-cyan-500" },
-            { icon: <Bot />, label: "Sub-Agents", color: "from-pink-500" },
-            { icon: <Terminal />, label: "Custom API", color: "from-gray-500" },
-            { icon: <Brain />, label: "Reasoning", color: "from-violet-500" }
+            { icon: <Bot />, label: "Sous-agents", color: "from-pink-500" },
+            { icon: <Terminal />, label: "API", color: "from-gray-500" },
+            { icon: <Brain />, label: "Raisonnement", color: "from-violet-500" }
           ].map((tool, i) => (
             <motion.div
               key={i}
