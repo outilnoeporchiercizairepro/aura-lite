@@ -157,11 +157,11 @@ export default function App() {
             </motion.div>
 
             <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl font-bold tracking-tighter text-white mb-6 max-w-5xl leading-[0.95]">
-              Maîtrisez n8n pour déployer de <br /> <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white/80 to-white/40">véritables Agents IA.</span>
+              Construis et livre des automatisations n8n exploitables, <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white/80 to-white/40">avec une vraie compréhension de l'IA.</span>
             </motion.h1>
 
             <motion.p variants={fadeInUp} className="text-gray-400 text-base md:text-lg max-w-2xl mb-10 font-light leading-relaxed opacity-80">
-              Ne vous contentez plus de simples workflows linéaires. Aura Lite vous enseigne à construire des agents capables de raisonner, d'utiliser des outils et de collaborer.
+              Aura Lite donne les bases opérationnelles en automatisation et agents IA pour passer à l'action, créer de la valeur et préparer une montée en échelle structurée.
             </motion.p>
 
             <HeroVideo />
