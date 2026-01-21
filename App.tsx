@@ -121,9 +121,9 @@ export default function App() {
 
       {/* Navigation */}
       <nav className="fixed top-4 md:top-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-fit px-4">
-        <div className="bg-[#0a0c14]/40 backdrop-blur-2xl border border-white/10 px-4 md:px-8 py-3 md:py-4 rounded-full flex items-center gap-4 md:gap-10 shadow-2xl">
+        <div className="bg-[#0a0c14]/40 backdrop-blur-2xl border border-white/10 px-4 md:px-8 py-2 md:py-3 rounded-full flex items-center gap-4 md:gap-10 shadow-2xl">
           <div className="flex items-center">
-            <img src="/lite.png" alt="Aura Lite" className="h-14 md:h-20 w-auto object-contain" />
+            <img src="/lite.png" alt="Aura Lite" className="h-10 md:h-14 w-auto object-contain" />
           </div>
           <div className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
             <a href="#roadmap" className="hover:text-white transition-colors">Roadmap</a>
@@ -137,7 +137,7 @@ export default function App() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 flex flex-col items-center justify-start min-h-[90vh]">
+      <section className="relative pt-40 md:pt-44 pb-20 flex flex-col items-center justify-start min-h-[90vh]">
         <motion.div 
           style={{ scale: arcScale, opacity: arcOpacity }}
           className="absolute top-[2%] left-1/2 -translate-x-1/2 w-[150%] aspect-[2/1] bg-[radial-gradient(ellipse_at_center,_rgba(79,70,229,0.3)_0%,_transparent_75%)] rounded-[100%] pointer-events-none -z-10"
