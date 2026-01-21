@@ -1,14 +1,14 @@
 
 import React from 'react';
 import { motion, useScroll, useTransform, Variants } from 'framer-motion';
-import { 
-  Check, 
-  ArrowRight, 
-  Zap, 
-  Layers, 
-  Cpu, 
-  ShieldCheck, 
-  Activity, 
+import {
+  Check,
+  ArrowRight,
+  Zap,
+  Layers,
+  Cpu,
+  ShieldCheck,
+  Activity,
   Command,
   Database,
   Workflow,
@@ -23,7 +23,10 @@ import {
   Mail,
   Slack,
   Globe,
-  Code2
+  Code2,
+  Settings,
+  Rocket,
+  TrendingUp
 } from 'lucide-react';
 
 // --- Shared & Visual System Components ---
@@ -350,31 +353,40 @@ export default function App() {
         <div className="flex flex-col gap-6">
           {[
             {
-              step: "Phase 01",
-              title: "Fondations & Logique LLM",
+              step: "Étape 1",
+              title: "Fondations",
               points: [
-                "Structure d'un LLM et mécanismes d'attention",
-                "Logiques d'automatisation avancées sur n8n"
+                "Comprendre les logiques d'automatisation",
+                "Fondamentaux IA appliqués aux workflows"
               ],
               icon: <Brain className="text-indigo-400" />
             },
             {
-              step: "Phase 02",
-              title: "Conception d'Agents",
+              step: "Étape 2",
+              title: "Exécution",
               points: [
-                "Construction d'agents autonomes (Reasoning)",
-                "Implémentation du Tool-Calling (Utilisation d'outils)"
+                "Construire des workflows n8n propres",
+                "Utiliser des templates et outils concrets"
               ],
-              icon: <Bot className="text-purple-400" />
+              icon: <Settings className="text-purple-400" />
             },
             {
-              step: "Phase 03",
-              title: "Systèmes Multi-Agents",
+              step: "Étape 3",
+              title: "Accélération",
               points: [
-                "Collaboration entre agents spécialisés",
-                "Déploiement de workflows de production stables"
+                "Livrer une automatisation exploitable",
+                "Poser une base saine pour aller plus vite et plus loin ensuite"
               ],
-              icon: <Layers className="text-cyan-400" />
+              icon: <Rocket className="text-cyan-400" />
+            },
+            {
+              step: "Étape 4",
+              title: "Monétisation",
+              points: [
+                "Transformer vos automatisations en revenus",
+                "Vendre et déployer des solutions à forte valeur ajoutée"
+              ],
+              icon: <TrendingUp className="text-green-400" />
             }
           ].map((item, i) => (
             <motion.div
