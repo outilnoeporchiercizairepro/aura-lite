@@ -237,7 +237,7 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-                <div className="text-xs text-gray-500 font-medium">Structure modulaire éprouvée</div>
+                <div className="text-xs text-gray-500 font-medium">Du niveau débutant à expert</div>
               </div>
             </div>
           </div>
