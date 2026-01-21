@@ -172,7 +172,7 @@ export default function App() {
             <motion.div variants={fadeInUp} className="flex flex-wrap justify-center gap-3 mb-10">
               {[
                 { icon: <Bot size={14} />, label: "Agents IA" },
-                { icon: <Brain size={14} />, label: "Raisonnement IA" },
+                { icon: <Brain size={14} />, label: "Raisonnement" },
                 { icon: <Terminal size={14} />, label: "Tool-Calling" },
                 { icon: <Layers size={14} />, label: "Multi-Agents" },
               ].map((token, idx) => (
