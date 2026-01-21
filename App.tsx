@@ -448,8 +448,8 @@ export default function App() {
           <div className="grid grid-cols-1 gap-4">
             {[
               "Architecture d'Agents IA sur n8n",
-              "Concepts de Memory & Vector Stores",
-              "Framework de Tool-calling (Usage d'APIs)",
+              "Concepts de mémoire & bases de données",
+              "Usages d'APIs",
               "Templates Multi-Agents prêts à l'emploi",
               "Compréhension technique des LLMs majeurs"
             ].map((item, i) => (
