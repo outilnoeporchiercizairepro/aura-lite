@@ -157,7 +157,7 @@ export default function App() {
             </motion.div>
 
             <motion.h1 variants={fadeInUp} className="text-5xl md:text-7xl font-bold tracking-tighter text-white mb-6 max-w-5xl leading-[0.95]">
-             Maîtrise n8n, construis des systèmes automatisés, <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white/80 to-white/40">avec une vraie compréhension de l'IA.</span>
+             Maîtrise n8n, construis des systèmes automatisés, <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white/80 to-white/40"> monétise ton expertise.</span>
             </motion.h1>
 
             <motion.p variants={fadeInUp} className="text-gray-400 text-base md:text-lg max-w-2xl mb-10 font-light leading-relaxed opacity-80">
