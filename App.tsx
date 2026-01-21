@@ -331,36 +331,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* NEW: Multi-Agent Collaboration Visual */}
-      <section className="py-24 container mx-auto px-4 max-w-7xl">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
-          <GlassCard className="text-center">
-            <div className="w-12 h-12 bg-indigo-600/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-indigo-500/30">
-               <Search className="text-indigo-400" />
-            </div>
-            <h4 className="text-white font-bold mb-3">Agent Chercheur</h4>
-            <p className="text-gray-500 text-sm">Récupère et synthétise les données brutes du web et des APIs.</p>
-          </GlassCard>
-          
-          <div className="flex flex-col items-center gap-4 py-8">
-            <div className="w-1 h-20 bg-gradient-to-b from-indigo-500 to-purple-500 opacity-20 hidden lg:block" />
-            <div className="p-4 rounded-full bg-white/5 border border-white/10 text-indigo-500 animate-pulse">
-              <Zap size={24} />
-            </div>
-            <div className="text-[10px] font-bold text-indigo-400 tracking-[0.4em] uppercase">COLLABORATION</div>
-            <div className="w-1 h-20 bg-gradient-to-t from-indigo-500 to-purple-500 opacity-20 hidden lg:block" />
-          </div>
-
-          <GlassCard className="text-center">
-            <div className="w-12 h-12 bg-purple-600/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-purple-500/30">
-               <Code2 className="text-purple-400" />
-            </div>
-            <h4 className="text-white font-bold mb-3">Agent Exécuteur</h4>
-            <p className="text-gray-500 text-sm">Formate, code et déploie les résultats dans vos outils métier.</p>
-          </GlassCard>
-        </div>
-      </section>
-
       {/* Roadmap Section */}
       <section id="roadmap" className="py-24 container mx-auto px-4 max-w-5xl">
         <SectionHeader title="Roadmap Agentique" subtitle="Votre parcours vers l'autonomie technique." />
