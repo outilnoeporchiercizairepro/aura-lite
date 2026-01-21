@@ -155,7 +155,7 @@ export default function App() {
           >
             <motion.div variants={fadeInUp} className="mb-6">
               <span className="px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-[10px] font-black tracking-[0.5em] uppercase shadow-[0_0_20px_rgba(79,70,229,0.1)]">
-                ORCHESTRATION D'AGENTS IA
+                Des bases à l'expertise.
               </span>
             </motion.div>
 
