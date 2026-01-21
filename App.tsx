@@ -120,10 +120,10 @@ export default function App() {
       <GlowBackground />
 
       {/* Navigation */}
-      <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-fit px-4">
-        <div className="bg-[#0a0c14]/40 backdrop-blur-2xl border border-white/10 px-8 py-3 rounded-full flex items-center gap-10 shadow-2xl">
-          <div className="flex items-center gap-3">
-            <img src="/lite.png" alt="Aura Lite" className="h-12 w-auto" />
+      <nav className="fixed top-4 md:top-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-fit px-4">
+        <div className="bg-[#0a0c14]/40 backdrop-blur-2xl border border-white/10 px-4 md:px-8 py-2 md:py-3 rounded-full flex items-center gap-4 md:gap-10 shadow-2xl">
+          <div className="flex items-center">
+            <img src="/lite.png" alt="Aura Lite" className="h-8 md:h-10 w-auto object-contain" />
           </div>
           <div className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
             <a href="#roadmap" className="hover:text-white transition-colors">Roadmap</a>
@@ -526,17 +526,17 @@ export default function App() {
       {/* Final Footer */}
       <footer className="py-20 border-t border-white/5 relative">
         <div className="container mx-auto px-4 max-w-7xl">
-           <div className="flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
+           <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-12 text-center md:text-left">
               <div className="flex flex-col gap-4">
-                <div className="flex items-center gap-3 justify-center md:justify-start">
-                  <img src="/lite.png" alt="Aura Lite" className="h-14 w-auto" />
+                <div className="flex items-center justify-center md:justify-start">
+                  <img src="/lite.png" alt="Aura Lite" className="h-12 md:h-16 w-auto object-contain" />
                 </div>
                 <p className="text-gray-500 text-sm font-light">
                   Architecture d'Agents IA & Automatisation n8n.
                 </p>
               </div>
 
-              <div className="flex gap-12 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">
+              <div className="flex gap-6 md:gap-12 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">
                 <a href="#roadmap" className="hover:text-white transition-colors">Roadmap</a>
                 <a href="#pricing" className="hover:text-white transition-colors">Tarif</a>
                 <a href="#agents" className="hover:text-white transition-colors">Agents</a>
