@@ -212,7 +212,7 @@ export default function App() {
                 {[
                   { icon: <GitBranch className="text-indigo-400" />, title: "Workflows n8n", desc: "Logique de décision" },
                   { icon: <Database className="text-purple-400" />, title: "Agents IA", desc: "Context Stores RAG" },
-                  { icon: <Terminal className="text-cyan-400" />, title: "Construction", desc: "APIs & Functions" },
+                  { icon: <Terminal className="text-cyan-400" />, title: "Logique métier", desc: "APIs & Functions" },
                   { icon: <Network className="text-blue-400" />, title: "Systèmes", desc: "Flux Multi-Agents" }
                 ].map((blueprint, i) => (
                   <div key={i} className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 backdrop-blur-sm group hover:border-indigo-500/30 transition-all">
