@@ -470,31 +470,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Quote Block */}
-      <section className="py-24 relative overflow-hidden text-center">
-        <div className="container mx-auto px-4 max-w-4xl relative z-10">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-            className="relative p-12 md:p-20 rounded-[48px] border border-white/5 bg-white/[0.01] backdrop-blur-3xl"
-          >
-            <div className="text-indigo-500/30 mb-10 flex justify-center">
-              <svg width="40" height="30" viewBox="0 0 40 30" fill="currentColor">
-                <path d="M0 15V0H15V15H7.5L11.25 30H3.75L0 15ZM25 15V0H40V15H32.5L36.25 30H28.75L25 15Z" />
-              </svg>
-            </div>
-            <h3 className="text-2xl md:text-4xl font-medium text-white italic leading-snug mb-10">
-              “L'automatisation du futur ne sera pas faite de triggers et d'actions, mais d'agents capables de comprendre un objectif et de s'auto-organiser pour l'atteindre via n8n.”
-            </h3>
-            <div className="flex flex-col items-center gap-4">
-              <div className="h-[1px] w-16 bg-indigo-500/50" />
-              <span className="text-indigo-400 font-bold tracking-[0.6em] text-[9px] uppercase">AURA LITE MANIFESTE</span>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
       {/* Pricing */}
       <section id="pricing" className="py-24 container mx-auto px-4 text-center">
         <SectionHeader title="Investissement." subtitle="Devenez l'architecte de vos propres agents." />
