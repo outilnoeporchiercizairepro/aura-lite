@@ -210,7 +210,7 @@ export default function App() {
             <div className="order-2 lg:order-1">
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { icon: <GitBranch className="text-indigo-400" />, title: "Orchestration", desc: "Logique de décision" },
+                  { icon: <GitBranch className="text-indigo-400" />, title: "Workflows n8n", desc: "Logique de décision" },
                   { icon: <Database className="text-purple-400" />, title: "Mémoire", desc: "Context Stores RAG" },
                   { icon: <Terminal className="text-cyan-400" />, title: "Tools", desc: "APIs & Functions" },
                   { icon: <Network className="text-blue-400" />, title: "Systèmes", desc: "Flux Multi-Agents" }
