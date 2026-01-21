@@ -161,7 +161,7 @@ export default function App() {
             </motion.h1>
 
             <motion.p variants={fadeInUp} className="text-gray-400 text-base md:text-lg max-w-2xl mb-10 font-light leading-relaxed opacity-80">
-              Aura Lite donne les bases opérationnelles en automatisation et agents IA pour passer à l'action, créer de la valeur et préparer une montée en échelle structurée.
+              Aura Lite donne les bases opérationnelles en automatisation et agents IA pour passer à l'action, créer de la valeur et préparer ton agence AAA de manière structurée.
             </motion.p>
 
             <HeroVideo />
