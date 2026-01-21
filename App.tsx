@@ -211,7 +211,7 @@ export default function App() {
               <div className="grid grid-cols-2 gap-4">
                 {[
                   { icon: <GitBranch className="text-indigo-400" />, title: "Workflows n8n", desc: "Logique de décision" },
-                  { icon: <Database className="text-purple-400" />, title: "Agents IA", desc: "Context Stores RAG" },
+                  { icon: <Database className="text-purple-400" />, title: "Agents IA", desc: "Brique essentielle" },
                   { icon: <Terminal className="text-cyan-400" />, title: "Logique métier", desc: "Pensé pour le terrain" },
                   { icon: <Network className="text-blue-400" />, title: "Systèmes", desc: "Flux Multi-Agents" }
                 ].map((blueprint, i) => (
