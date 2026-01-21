@@ -173,7 +173,7 @@ export default function App() {
               {[
                 { icon: <Bot size={14} />, label: "Agents IA" },
                 { icon: <Brain size={14} />, label: "Raisonnement" },
-                { icon: <Terminal size={14} />, label: "Tool-Calling" },
+                { icon: <Terminal size={14} />, label: "Intégration" },
                 { icon: <Layers size={14} />, label: "Multi-Agents" },
               ].map((token, idx) => (
                 <div key={idx} className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white/[0.03] border border-white/10 text-gray-300 text-[10px] font-bold uppercase tracking-wider backdrop-blur-md">
