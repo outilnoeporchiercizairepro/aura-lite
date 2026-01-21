@@ -123,8 +123,7 @@ export default function App() {
       <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-50 w-full max-w-fit px-4">
         <div className="bg-[#0a0c14]/40 backdrop-blur-2xl border border-white/10 px-8 py-3 rounded-full flex items-center gap-10 shadow-2xl">
           <div className="flex items-center gap-3">
-            <img src="/lite.png" alt="Aura Lite" className="h-8 w-auto" />
-            <span className="font-bold tracking-tight text-base">Aura Lite</span>
+            <img src="/lite.png" alt="Aura Lite" className="h-12 w-auto" />
           </div>
           <div className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-widest text-gray-400">
             <a href="#roadmap" className="hover:text-white transition-colors">Roadmap</a>
@@ -530,8 +529,7 @@ export default function App() {
            <div className="flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-3 justify-center md:justify-start">
-                  <img src="/lite.png" alt="Aura Lite" className="h-10 w-auto" />
-                  <span className="text-2xl font-bold tracking-tighter">Aura Lite</span>
+                  <img src="/lite.png" alt="Aura Lite" className="h-14 w-auto" />
                 </div>
                 <p className="text-gray-500 text-sm font-light">
                   Architecture d'Agents IA & Automatisation n8n.
