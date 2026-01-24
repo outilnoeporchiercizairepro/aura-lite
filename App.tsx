@@ -230,7 +230,7 @@ export default function App() {
               <span className="text-indigo-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-4 block">Des bases à l'expertise.</span>
               <h3 className="text-4xl md:text-5xl font-bold mb-6 leading-tight tracking-tight">Focalisé sur l'exécution <br /></h3>
               <p className="text-gray-400 text-lg leading-relaxed font-light mb-8">
-                Contrairement aux workflows classiques, un agent Aura Lite est conçu comme une entité capable de <strong>percevoir son environnement</strong>, de planifier et d'agir via des outils tiers connectés sur n8n.
+                Grâce à un <strong>apprentissage guidé étape par étape</strong>, vous maîtriserez rapidement la création d'agents intelligents et serez en mesure de <strong>générer vos premiers revenus</strong> en proposant vos services d'automatisation.
               </p>
               <div className="flex items-center gap-6">
                 <div className="flex -space-x-3">
