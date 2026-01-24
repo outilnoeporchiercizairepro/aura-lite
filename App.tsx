@@ -133,9 +133,6 @@ export default function App() {
             <a href="#agents" className="hover:text-white transition-colors">Agents</a>
             <a href="#pricing" className="hover:text-white transition-colors">Tarif</a>
           </div>
-          <button className="hidden md:block text-xs font-bold bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-1.5 rounded-full transition-all">
-            Dashboard
-          </button>
         </div>
       </nav>
 
