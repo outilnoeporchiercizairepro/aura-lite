@@ -1,5 +1,6 @@
 
-import React from 'react';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion, useScroll, useTransform, Variants } from 'framer-motion';
 import {
   Check,
@@ -28,6 +29,9 @@ import {
   Rocket,
   TrendingUp
 } from 'lucide-react';
+import { useAuth } from './src/hooks/useAuth';
+import { supabase } from './src/lib/supabase';
+import { stripeProducts } from './src/stripe-config';
 
 // --- Shared & Visual System Components ---
 
@@ -112,10 +116,65 @@ const staggerContainer: Variants = {
   animate: { transition: { staggerChildren: 0.08 } }
 };
 
-export default function App() {
+function LandingPage() {
   const { scrollYProgress } = useScroll();
   const arcScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
   const arcOpacity = useTransform(scrollYProgress, [0, 0.4], [0.7, 0.1]);
+  const { user } = useAuth();
+  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+  const handleCheckout = async () => {
+    try {
+      setIsCheckoutLoading(true);
+      setCheckoutError(null);
+
+      if (!user) {
+        alert('Veuillez vous connecter pour continuer');
+        return;
+      }
+
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (!session) {
+        alert('Session expirée. Veuillez vous reconnecter.');
+        return;
+      }
+
+      const product = stripeProducts[0];
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-checkout`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`,
+          },
+          body: JSON.stringify({
+            price_id: product.priceId,
+            mode: product.mode,
+            success_url: `${window.location.origin}/success`,
+            cancel_url: window.location.href,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erreur lors de la création de la session de paiement');
+      }
+
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch (error: any) {
+      console.error('Checkout error:', error);
+      setCheckoutError(error.message || 'Une erreur est survenue');
+    } finally {
+      setIsCheckoutLoading(false);
+    }
+  };
 
   return (
     <div className="relative min-h-screen selection:bg-indigo-500/40 text-white selection:text-white overflow-x-hidden">
@@ -181,17 +240,19 @@ export default function App() {
             </motion.div>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-5 items-center">
-              <motion.button 
+              <motion.button
+                onClick={handleCheckout}
+                disabled={isCheckoutLoading}
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="relative group overflow-hidden px-10 py-5 rounded-xl bg-indigo-600 text-white font-bold transition-all shadow-[0_20px_50px_rgba(79,70,229,0.3)]"
+                className="relative group overflow-hidden px-10 py-5 rounded-xl bg-indigo-600 text-white font-bold transition-all shadow-[0_20px_50px_rgba(79,70,229,0.3)] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <span className="relative flex items-center gap-3 text-lg">
-                  Commencer avec Aura Lite <ArrowRight size={20} />
+                  {isCheckoutLoading ? 'Chargement...' : 'Commencer avec Aura Lite'} <ArrowRight size={20} />
                 </span>
               </motion.button>
-              <button 
+              <button
                 onClick={() => document.getElementById('roadmap')?.scrollIntoView({ behavior: 'smooth' })}
                 className="px-10 py-5 rounded-xl bg-white/[0.02] border border-white/10 text-white font-bold transition-all hover:bg-white/[0.06] hover:border-white/20 text-lg backdrop-blur-xl"
               >
@@ -500,13 +561,18 @@ export default function App() {
               Maîtrisez les agents IA et n8n. Accès autonome et complet au socle technique Aura.
             </p>
             
-            <motion.button 
+            <motion.button
+              onClick={handleCheckout}
+              disabled={isCheckoutLoading}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full py-6 rounded-xl bg-indigo-600 text-white font-bold text-xl transition-all shadow-xl hover:bg-indigo-500 mb-6"
+              className="w-full py-6 rounded-xl bg-indigo-600 text-white font-bold text-xl transition-all shadow-xl hover:bg-indigo-500 mb-6 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Rejoindre Aura Lite
+              {isCheckoutLoading ? 'Chargement...' : 'Rejoindre Aura Lite'}
             </motion.button>
+            {checkoutError && (
+              <div className="mb-6 text-red-400 text-sm text-center">{checkoutError}</div>
+            )}
             <div className="text-gray-600 text-[10px] uppercase tracking-widest font-bold">Paiement sécurisé par Stripe</div>
           </div>
         </motion.div>
@@ -538,6 +604,74 @@ export default function App() {
         </div>
       </footer>
     </div>
+  );
+}
+
+function SuccessPage() {
+  return (
+    <div className="relative min-h-screen selection:bg-indigo-500/40 text-white selection:text-white overflow-x-hidden bg-[#05060a]">
+      <GrainOverlay />
+      <GlowBackground />
+
+      <div className="container mx-auto px-4 py-20 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="max-w-2xl mx-auto"
+        >
+          <div className="w-20 h-20 mx-auto mb-8 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
+            <Check size={40} className="text-white" />
+          </div>
+
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">Paiement réussi !</h1>
+          <p className="text-gray-400 text-xl mb-8">
+            Félicitations ! Vous avez maintenant accès à Aura Lite.
+          </p>
+
+          <div className="bg-white/[0.02] border border-white/10 rounded-2xl p-8 mb-8 backdrop-blur-xl">
+            <h2 className="text-2xl font-bold mb-6">Prochaines étapes</h2>
+            <div className="space-y-4 text-left">
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                  <span className="text-indigo-400 font-bold">1</span>
+                </div>
+                <div>
+                  <h3 className="font-bold mb-1">Accès à la formation</h3>
+                  <p className="text-gray-400 text-sm">Vous recevrez vos identifiants d'accès par email.</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                  <span className="text-indigo-400 font-bold">2</span>
+                </div>
+                <div>
+                  <h3 className="font-bold mb-1">Commencez votre apprentissage</h3>
+                  <p className="text-gray-400 text-sm">Explorez les 36h de formation complète.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button
+            onClick={() => window.location.href = '/'}
+            className="px-10 py-5 rounded-xl bg-indigo-600 text-white font-bold text-lg transition-all hover:bg-indigo-500 shadow-xl"
+          >
+            Retour à l'accueil
+          </button>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/success" element={<SuccessPage />} />
+      </Routes>
+    </Router>
   );
 }
 
