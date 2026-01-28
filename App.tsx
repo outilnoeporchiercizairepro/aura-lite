@@ -120,7 +120,6 @@ function LandingPage() {
   const { scrollYProgress } = useScroll();
   const arcScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
   const arcOpacity = useTransform(scrollYProgress, [0, 0.4], [0.7, 0.1]);
-  const { user } = useAuth();
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
@@ -129,15 +128,11 @@ function LandingPage() {
       setIsCheckoutLoading(true);
       setCheckoutError(null);
 
-      if (!user) {
-        alert('Veuillez vous connecter pour continuer');
-        return;
-      }
+      const email = prompt('Entrez votre email pour continuer :');
 
-      const { data: { session } } = await supabase.auth.getSession();
-
-      if (!session) {
-        alert('Session expirée. Veuillez vous reconnecter.');
+      if (!email || !email.includes('@')) {
+        alert('Veuillez entrer une adresse email valide');
+        setIsCheckoutLoading(false);
         return;
       }
 
@@ -148,11 +143,11 @@ function LandingPage() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${session.access_token}`,
           },
           body: JSON.stringify({
             price_id: product.priceId,
             mode: product.mode,
+            email: email,
             success_url: `${window.location.origin}/success`,
             cancel_url: window.location.href,
           }),
