@@ -287,28 +287,28 @@ export default function App() {
               description: "Construis et déploie des workflows d'automatisation prêts pour la production.",
               icon: <Bot size={20} />,
               color: "from-blue-500 to-cyan-500",
-              hours: "20h"
+              hours: "+20h de cours"
             },
             {
               title: "Fondamentaux IA orientés usage réel",
               description: "Comprends les LLMs et leur application concrète dans tes projets d'automatisation.",
               icon: <Brain size={20} />,
               color: "from-purple-500 to-pink-500",
-              hours: "5h"
+              hours: "+5h  de cours"
             },
             {
               title: "Monétisation/Marketing",
               description: "Apprends à vendre et commercialiser tes automatisations pour générer des revenus.",
               icon: <TrendingUp size={20} />,
               color: "from-orange-500 to-red-500",
-              hours: "6h"
+              hours: "+6h de cours"
             },
             {
               title: "Templates n8n prêts pour la prod",
               description: "Des workflows agents testés et optimisés pour un déploiement immédiat.",
               icon: <Layers size={20} />,
               color: "from-green-500 to-emerald-500",
-              hours: "5h"
+              hours: "+5h de cours"
             }
           ].map((item, i) => (
             <motion.div
