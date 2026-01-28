@@ -286,25 +286,29 @@ export default function App() {
               title: "Maîtrise opérationnelle de n8n",
               description: "Construis et déploie des workflows d'automatisation prêts pour la production.",
               icon: <Bot size={20} />,
-              color: "from-blue-500 to-cyan-500"
+              color: "from-blue-500 to-cyan-500",
+              hours: "20h"
             },
             {
               title: "Fondamentaux IA orientés usage réel",
               description: "Comprends les LLMs et leur application concrète dans tes projets d'automatisation.",
               icon: <Brain size={20} />,
-              color: "from-purple-500 to-pink-500"
+              color: "from-purple-500 to-pink-500",
+              hours: "5h"
             },
             {
-              title: "Boîte à outils IA & automatisation",
-              description: "Accède à une collection complète de templates et outils IA intégrés.",
-              icon: <Terminal size={20} />,
-              color: "from-orange-500 to-red-500"
+              title: "Monétisation/Marketing",
+              description: "Apprends à vendre et commercialiser tes automatisations pour générer des revenus.",
+              icon: <TrendingUp size={20} />,
+              color: "from-orange-500 to-red-500",
+              hours: "6h"
             },
             {
               title: "Templates n8n prêts pour la prod",
               description: "Des workflows agents testés et optimisés pour un déploiement immédiat.",
               icon: <Layers size={20} />,
-              color: "from-green-500 to-emerald-500"
+              color: "from-green-500 to-emerald-500",
+              hours: "5h"
             }
           ].map((item, i) => (
             <motion.div
@@ -322,7 +326,10 @@ export default function App() {
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="text-white text-lg font-bold mb-1">{item.title}</h4>
+                  <div className="flex items-center gap-3 mb-1">
+                    <h4 className="text-white text-lg font-bold">{item.title}</h4>
+                    <span className="px-2 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-bold">{item.hours}</span>
+                  </div>
                   <p className="text-gray-400 text-sm leading-relaxed">{item.description}</p>
                 </div>
               </div>
