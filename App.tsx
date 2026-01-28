@@ -178,6 +178,13 @@ function LandingPage() {
             <a href="#agents" className="hover:text-white transition-colors">Agents</a>
             <a href="#pricing" className="hover:text-white transition-colors">Tarif</a>
           </div>
+          <button
+            onClick={handleCheckout}
+            disabled={isCheckoutLoading}
+            className="hidden md:block px-6 py-2.5 rounded-full bg-indigo-600 text-white text-xs font-bold uppercase tracking-widest hover:bg-indigo-500 transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isCheckoutLoading ? 'Chargement...' : 'Rejoindre'}
+          </button>
         </div>
       </nav>
 
@@ -287,6 +294,23 @@ function LandingPage() {
                 <div className="text-xs text-gray-500 font-medium">Du niveau débutant à expert</div>
               </div>
             </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mt-8"
+            >
+              <motion.button
+                onClick={handleCheckout}
+                disabled={isCheckoutLoading}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-8 py-4 rounded-xl bg-indigo-600 text-white font-bold transition-all shadow-xl hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3"
+              >
+                {isCheckoutLoading ? 'Chargement...' : 'Rejoindre Aura Lite'} <ArrowRight size={18} />
+              </motion.button>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -383,6 +407,24 @@ function LandingPage() {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex justify-center mt-12"
+        >
+          <motion.button
+            onClick={handleCheckout}
+            disabled={isCheckoutLoading}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="px-10 py-5 rounded-xl bg-indigo-600 text-white font-bold text-lg transition-all shadow-xl hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3"
+          >
+            {isCheckoutLoading ? 'Chargement...' : 'Rejoindre Aura Lite'} <ArrowRight size={20} />
+          </motion.button>
+        </motion.div>
       </section>
 
       {/* Roadmap Section */}
@@ -472,6 +514,24 @@ function LandingPage() {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="flex justify-center mt-12"
+        >
+          <motion.button
+            onClick={handleCheckout}
+            disabled={isCheckoutLoading}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="px-10 py-5 rounded-xl bg-indigo-600 text-white font-bold text-lg transition-all shadow-xl hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3"
+          >
+            {isCheckoutLoading ? 'Chargement...' : 'Rejoindre Aura Lite'} <ArrowRight size={20} />
+          </motion.button>
+        </motion.div>
       </section>
 
       {/* Ce que tu obtiens */}
@@ -519,6 +579,24 @@ function LandingPage() {
             ))}
           </div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="flex justify-center mt-16"
+        >
+          <motion.button
+            onClick={handleCheckout}
+            disabled={isCheckoutLoading}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="px-10 py-5 rounded-xl bg-indigo-600 text-white font-bold text-lg transition-all shadow-xl hover:bg-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-3"
+          >
+            {isCheckoutLoading ? 'Chargement...' : 'Rejoindre Aura Lite'} <ArrowRight size={20} />
+          </motion.button>
+        </motion.div>
       </section>
 
       {/* Pricing */}
