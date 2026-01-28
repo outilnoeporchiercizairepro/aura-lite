@@ -1,5 +1,5 @@
 {
-  "name": "aura-lite-landing-page",
+  "name": "aura-lite-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,12 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.93.2",
-    "framer-motion": "^12.26.2",
-    "lucide-react": "^0.562.0",
-    "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "react-router-dom": "^7.13.0"
+    "react": "^19.2.3",
+    "framer-motion": "^12.26.2",
+    "lucide-react": "^0.562.0"
   },
   "devDependencies": {
     "@types/node": "^22.14.0",
