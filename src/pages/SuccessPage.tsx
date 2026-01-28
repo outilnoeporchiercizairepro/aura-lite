@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { CheckCircle, ArrowRight, Home } from 'lucide-react'
+import { CircleCheck as CheckCircle, ArrowRight, Hop as Home } from 'lucide-react'
 import { Header } from '../components/Header'
 
 export function SuccessPage() {

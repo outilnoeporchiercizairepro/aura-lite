@@ -4,7 +4,7 @@ import { useAuth } from './hooks/useAuth'
 import { AuthForm } from './components/AuthForm'
 import { HomePage } from './pages/HomePage'
 import { SuccessPage } from './pages/SuccessPage'
-import { Loader2 } from 'lucide-react'
+import { Loader as Loader2 } from 'lucide-react'
 
 function App() {
   const { user, loading } = useAuth()
