@@ -128,14 +128,6 @@ function LandingPage() {
       setIsCheckoutLoading(true);
       setCheckoutError(null);
 
-      const email = prompt('Entrez votre email pour continuer :');
-
-      if (!email || !email.includes('@')) {
-        alert('Veuillez entrer une adresse email valide');
-        setIsCheckoutLoading(false);
-        return;
-      }
-
       const product = stripeProducts[0];
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-checkout`,
@@ -147,7 +139,6 @@ function LandingPage() {
           body: JSON.stringify({
             price_id: product.priceId,
             mode: product.mode,
-            email: email,
             success_url: `${window.location.origin}/success`,
             cancel_url: window.location.href,
           }),

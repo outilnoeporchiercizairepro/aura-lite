@@ -76,9 +76,6 @@ Deno.serve(async (req) => {
       }
     }
 
-    if (!isAuthenticated && !email) {
-      return corsResponse({ error: 'Email is required for guest checkout' }, 400);
-    }
 
     let customerId;
 
