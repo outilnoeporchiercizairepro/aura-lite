@@ -159,13 +159,22 @@ async function sendToN8nWebhook(customerId: string, paymentType: string) {
 
     console.info(`[N8N] Subscription data retrieved: ${subscriptionData ? 'found' : 'not found'}`);
 
-    const { data: userData } = await supabase
-      .from('users')
-      .select('*')
-      .eq('stripe_customer_id', customerId)
+    const { data: stripeCustomerData } = await supabase
+      .from('stripe_customers')
+      .select('user_id')
+      .eq('customer_id', customerId)
       .maybeSingle();
 
-    console.info(`[N8N] User data retrieved: ${userData ? 'found' : 'not found'}`);
+    console.info(`[N8N] Stripe customer data retrieved: ${stripeCustomerData ? 'found' : 'not found'}`);
+
+    let authUserData = null;
+    if (stripeCustomerData?.user_id) {
+      const { data, error } = await supabase.auth.admin.getUserById(stripeCustomerData.user_id);
+      if (!error && data) {
+        authUserData = data.user;
+        console.info(`[N8N] Auth user data retrieved for user_id: ${stripeCustomerData.user_id}`);
+      }
+    }
 
     const webhookData = {
       customer_id: customerId,
@@ -173,7 +182,11 @@ async function sendToN8nWebhook(customerId: string, paymentType: string) {
       name: customer.name,
       payment_type: paymentType,
       subscription: subscriptionData,
-      user: userData,
+      user: authUserData ? {
+        id: authUserData.id,
+        email: authUserData.email,
+        created_at: authUserData.created_at,
+      } : null,
       timestamp: new Date().toISOString(),
     };
 
