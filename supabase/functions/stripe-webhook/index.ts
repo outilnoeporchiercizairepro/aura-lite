@@ -54,18 +54,23 @@ Deno.serve(async (req) => {
 });
 
 async function handleEvent(event: Stripe.Event) {
+  console.info(`Received Stripe event: ${event.type}`);
+
   const stripeData = event?.data?.object ?? {};
 
   if (!stripeData) {
+    console.info('No stripe data found in event');
     return;
   }
 
   if (!('customer' in stripeData)) {
+    console.info('No customer field in stripe data');
     return;
   }
 
   // for one time payments, we only listen for the checkout.session.completed event
   if (event.type === 'payment_intent.succeeded' && event.data.object.invoice === null) {
+    console.info('Skipping payment_intent.succeeded without invoice');
     return;
   }
 
@@ -74,6 +79,7 @@ async function handleEvent(event: Stripe.Event) {
   if (!customerId || typeof customerId !== 'string') {
     console.error(`No customer received on event: ${JSON.stringify(event)}`);
   } else {
+    console.info(`Processing event for customer: ${customerId}`);
     let isSubscription = true;
 
     if (event.type === 'checkout.session.completed') {
@@ -88,8 +94,13 @@ async function handleEvent(event: Stripe.Event) {
 
     if (isSubscription) {
       console.info(`Starting subscription sync for customer: ${customerId}`);
-      await syncCustomerFromStripe(customerId);
-      await sendToN8nWebhook(customerId, 'subscription');
+      try {
+        await syncCustomerFromStripe(customerId);
+        console.info(`Subscription synced, now sending to n8n webhook`);
+        await sendToN8nWebhook(customerId, 'subscription');
+      } catch (error) {
+        console.error('Error processing subscription:', error);
+      }
     } else if (mode === 'payment' && payment_status === 'paid') {
       try {
         // Extract the necessary information from the session
@@ -110,14 +121,16 @@ async function handleEvent(event: Stripe.Event) {
           amount_total,
           currency,
           payment_status,
-          status: 'completed', // assuming we want to mark it as completed since payment is successful
+          status: 'completed',
         });
 
         if (orderError) {
           console.error('Error inserting order:', orderError);
-          return;
+        } else {
+          console.info(`Successfully processed one-time payment for session: ${checkout_session_id}`);
         }
-        console.info(`Successfully processed one-time payment for session: ${checkout_session_id}`);
+
+        console.info(`Now sending one-time payment to n8n webhook`);
         await sendToN8nWebhook(customerId, 'one_time_payment');
       } catch (error) {
         console.error('Error processing one-time payment:', error);
@@ -128,7 +141,10 @@ async function handleEvent(event: Stripe.Event) {
 
 async function sendToN8nWebhook(customerId: string, paymentType: string) {
   try {
+    console.info(`[N8N] Starting webhook send for customer: ${customerId}, type: ${paymentType}`);
+
     const customer = await stripe.customers.retrieve(customerId);
+    console.info(`[N8N] Customer retrieved: ${customer.email}`);
 
     if (!customer || customer.deleted) {
       console.error(`Customer ${customerId} not found or deleted`);
@@ -141,11 +157,15 @@ async function sendToN8nWebhook(customerId: string, paymentType: string) {
       .eq('customer_id', customerId)
       .maybeSingle();
 
+    console.info(`[N8N] Subscription data retrieved: ${subscriptionData ? 'found' : 'not found'}`);
+
     const { data: userData } = await supabase
       .from('users')
       .select('*')
       .eq('stripe_customer_id', customerId)
       .maybeSingle();
+
+    console.info(`[N8N] User data retrieved: ${userData ? 'found' : 'not found'}`);
 
     const webhookData = {
       customer_id: customerId,
@@ -157,6 +177,8 @@ async function sendToN8nWebhook(customerId: string, paymentType: string) {
       timestamp: new Date().toISOString(),
     };
 
+    console.info(`[N8N] Sending webhook to n8n with data: ${JSON.stringify(webhookData)}`);
+
     const response = await fetch('https://n8n.srv802543.hstgr.cloud/webhook/acces-aura-lite', {
       method: 'POST',
       headers: {
@@ -165,13 +187,16 @@ async function sendToN8nWebhook(customerId: string, paymentType: string) {
       body: JSON.stringify(webhookData),
     });
 
+    const responseText = await response.text();
+    console.info(`[N8N] Response status: ${response.status}, body: ${responseText}`);
+
     if (!response.ok) {
-      console.error(`Failed to send webhook to n8n: ${response.status} ${response.statusText}`);
+      console.error(`[N8N] Failed to send webhook to n8n: ${response.status} ${response.statusText}`);
     } else {
-      console.info(`Successfully sent webhook to n8n for customer: ${customerId}`);
+      console.info(`[N8N] Successfully sent webhook to n8n for customer: ${customerId}`);
     }
   } catch (error) {
-    console.error('Error sending webhook to n8n:', error);
+    console.error('[N8N] Error sending webhook to n8n:', error);
   }
 }
 
