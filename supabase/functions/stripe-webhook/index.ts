@@ -89,6 +89,7 @@ async function handleEvent(event: Stripe.Event) {
     if (isSubscription) {
       console.info(`Starting subscription sync for customer: ${customerId}`);
       await syncCustomerFromStripe(customerId);
+      await sendToN8nWebhook(customerId, 'subscription');
     } else if (mode === 'payment' && payment_status === 'paid') {
       try {
         // Extract the necessary information from the session
@@ -117,10 +118,60 @@ async function handleEvent(event: Stripe.Event) {
           return;
         }
         console.info(`Successfully processed one-time payment for session: ${checkout_session_id}`);
+        await sendToN8nWebhook(customerId, 'one_time_payment');
       } catch (error) {
         console.error('Error processing one-time payment:', error);
       }
     }
+  }
+}
+
+async function sendToN8nWebhook(customerId: string, paymentType: string) {
+  try {
+    const customer = await stripe.customers.retrieve(customerId);
+
+    if (!customer || customer.deleted) {
+      console.error(`Customer ${customerId} not found or deleted`);
+      return;
+    }
+
+    const { data: subscriptionData } = await supabase
+      .from('stripe_subscriptions')
+      .select('*')
+      .eq('customer_id', customerId)
+      .maybeSingle();
+
+    const { data: userData } = await supabase
+      .from('users')
+      .select('*')
+      .eq('stripe_customer_id', customerId)
+      .maybeSingle();
+
+    const webhookData = {
+      customer_id: customerId,
+      email: customer.email,
+      name: customer.name,
+      payment_type: paymentType,
+      subscription: subscriptionData,
+      user: userData,
+      timestamp: new Date().toISOString(),
+    };
+
+    const response = await fetch('https://n8n.srv802543.hstgr.cloud/webhook/acces-aura-lite', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(webhookData),
+    });
+
+    if (!response.ok) {
+      console.error(`Failed to send webhook to n8n: ${response.status} ${response.statusText}`);
+    } else {
+      console.info(`Successfully sent webhook to n8n for customer: ${customerId}`);
+    }
+  } catch (error) {
+    console.error('Error sending webhook to n8n:', error);
   }
 }
 
