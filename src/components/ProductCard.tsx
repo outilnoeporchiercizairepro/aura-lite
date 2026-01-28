@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { StripeProduct, formatPrice } from '../stripe-config'
-import { supabase } from '../lib/supabase'
-import { Check, Loader as Loader2 } from 'lucide-react'
+import { Check, Loader as Loader2, Mail } from 'lucide-react'
 
 interface ProductCardProps {
   product: StripeProduct
@@ -9,26 +8,32 @@ interface ProductCardProps {
 
 export function ProductCard({ product }: ProductCardProps) {
   const [loading, setLoading] = useState(false)
+  const [showEmailInput, setShowEmailInput] = useState(false)
+  const [email, setEmail] = useState('')
 
   const handlePurchase = async () => {
-    setLoading(true)
-    
-    try {
-      const { data: { session } } = await supabase.auth.getSession()
-      
-      if (!session) {
-        throw new Error('Vous devez être connecté pour effectuer un achat')
-      }
+    if (!showEmailInput) {
+      setShowEmailInput(true)
+      return
+    }
 
+    if (!email || !email.includes('@')) {
+      alert('Veuillez entrer une adresse email valide')
+      return
+    }
+
+    setLoading(true)
+
+    try {
       const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-checkout`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({
           price_id: product.priceId,
           mode: product.mode,
+          email: email,
           success_url: `${window.location.origin}/success`,
           cancel_url: `${window.location.origin}/`,
         }),
@@ -86,6 +91,28 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
       </div>
 
+      {showEmailInput && (
+        <div className="mb-4">
+          <label htmlFor={`email-${product.priceId}`} className="block text-sm font-medium text-gray-700 mb-2">
+            Votre email
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Mail className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              id={`email-${product.priceId}`}
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="votre@email.com"
+              className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              required
+            />
+          </div>
+        </div>
+      )}
+
       <button
         onClick={handlePurchase}
         disabled={loading}
@@ -97,7 +124,7 @@ export function ProductCard({ product }: ProductCardProps) {
             Redirection...
           </>
         ) : (
-          'Acheter maintenant'
+          showEmailInput ? 'Continuer vers le paiement' : 'Acheter maintenant'
         )}
       </button>
     </div>

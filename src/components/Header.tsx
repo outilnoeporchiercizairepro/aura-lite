@@ -1,54 +1,15 @@
 import React from 'react'
-import { useAuth } from '../hooks/useAuth'
-import { useSubscription } from '../hooks/useSubscription'
-import { LogOut, User, Crown, UserPlus } from 'lucide-react'
 
 export function Header() {
-  const { user, signOut } = useAuth()
-  const { subscription } = useSubscription()
-
   return (
     <header className="bg-white shadow-sm border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <h1 className="text-xl font-bold text-gray-900">Aura Lite</h1>
+            <div className="flex-shrink-0 flex items-center">
+              <img src="/lite.png" alt="Aura Lite" className="h-10 w-auto" />
+              <h1 className="ml-3 text-xl font-bold text-gray-900">Aura Lite</h1>
             </div>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            {user ? (
-              <>
-                {subscription && subscription.subscription_status === 'active' && (
-                  <div className="flex items-center px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">
-                    <Crown className="h-4 w-4 mr-1" />
-                    {subscription.product_name || 'Plan actif'}
-                  </div>
-                )}
-
-                <div className="flex items-center space-x-2 text-sm text-gray-600">
-                  <User className="h-4 w-4" />
-                  <span>{user.email}</span>
-                </div>
-
-                <button
-                  onClick={signOut}
-                  className="flex items-center space-x-1 text-sm text-gray-600 hover:text-gray-900 transition-colors"
-                >
-                  <LogOut className="h-4 w-4" />
-                  <span>Déconnexion</span>
-                </button>
-              </>
-            ) : (
-              <button
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="flex items-center space-x-2 px-4 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors font-medium"
-              >
-                <UserPlus className="h-4 w-4" />
-                <span>Rejoindre</span>
-              </button>
-            )}
           </div>
         </div>
       </div>
