@@ -31,7 +31,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from './src/hooks/useAuth';
 import { supabase } from './src/lib/supabase';
-import { stripeProducts } from './src/stripe-config';
+import { STRIPE_PRODUCTS } from './src/stripe-config';
 
 // --- Shared & Visual System Components ---
 
@@ -128,7 +128,14 @@ function LandingPage() {
       setIsCheckoutLoading(true);
       setCheckoutError(null);
 
-      const product = stripeProducts[0];
+      const email = prompt('Veuillez entrer votre adresse email :');
+      if (!email || !email.includes('@')) {
+        setCheckoutError('Adresse email invalide');
+        setIsCheckoutLoading(false);
+        return;
+      }
+
+      const product = STRIPE_PRODUCTS[0];
       const response = await fetch(
         `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-checkout`,
         {
@@ -139,6 +146,7 @@ function LandingPage() {
           body: JSON.stringify({
             price_id: product.priceId,
             mode: product.mode,
+            email: email,
             success_url: `${window.location.origin}/success`,
             cancel_url: window.location.href,
           }),
