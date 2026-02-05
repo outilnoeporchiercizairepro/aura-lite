@@ -1,30 +1,31 @@
 export interface StripeProduct {
+  id: string;
   priceId: string;
   name: string;
   description: string;
-  mode: 'payment' | 'subscription';
   price: number;
   currency: string;
+  currencySymbol: string;
+  mode: 'payment' | 'subscription';
 }
 
-export const stripeProducts: StripeProduct[] = [
+export const STRIPE_PRODUCTS: StripeProduct[] = [
   {
-    priceId: 'price_1SuYmtBXZHj9kkha3DZkgZdP',
-    name: 'Accès Aura Lite à vie',
-    description: 'Aura Lite : Formation complète pour créer votre agence AAA (Automatisation, Agents IA, Marketing et Vente). Maîtrisez n8n, construisez des automatisations IA et monétisez vos services.',
-    mode: 'payment',
+    id: 'prod_TvFoiQxDINa2yG',
+    priceId: 'price_1SxPJGKWH6qcDhpR972aS3Y0',
+    name: 'Accès à Aura Lite',
+    description: 'Accès à l\'académie Aura Lite',
     price: 500.00,
-    currency: 'eur'
+    currency: 'eur',
+    currencySymbol: '€',
+    mode: 'payment'
   }
 ];
 
-export function getProductByPriceId(priceId: string): StripeProduct | undefined {
-  return stripeProducts.find(product => product.priceId === priceId);
-}
+export const getProductByPriceId = (priceId: string): StripeProduct | undefined => {
+  return STRIPE_PRODUCTS.find(product => product.priceId === priceId);
+};
 
-export function formatPrice(price: number, currency: string): string {
-  return new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: currency.toUpperCase(),
-  }).format(price);
-}
+export const formatPrice = (price: number, currencySymbol: string): string => {
+  return `${price.toFixed(2)} ${currencySymbol}`;
+};
