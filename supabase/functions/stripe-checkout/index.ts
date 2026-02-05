@@ -182,7 +182,7 @@ Deno.serve(async (req) => {
 
     if (customerId) {
       sessionConfig.customer = customerId;
-    } else {
+    } else if (email) {
       sessionConfig.customer_email = email;
     }
 
