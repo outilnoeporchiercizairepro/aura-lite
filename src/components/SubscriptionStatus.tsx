@@ -1,108 +1,76 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Crown, CircleAlert as AlertCircle } from 'lucide-react';
-import { getUserSubscription, getUserOrders } from '../lib/stripe';
+import { Crown, CheckCircle } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+import { useAuth } from '../hooks/useAuth';
 import { getProductByPriceId } from '../stripe-config';
 
+interface SubscriptionData {
+  subscription_status: string;
+  price_id: string;
+  current_period_end: number;
+}
+
 export const SubscriptionStatus: React.FC = () => {
-  const [subscription, setSubscription] = useState<any>(null);
-  const [orders, setOrders] = useState<any[]>([]);
+  const { user } = useAuth();
+  const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+
+    const fetchSubscription = async () => {
       try {
-        const [subData, ordersData] = await Promise.all([
-          getUserSubscription(),
-          getUserOrders()
-        ]);
-        
-        setSubscription(subData);
-        setOrders(ordersData || []);
-      } catch (err) {
-        console.error('Error fetching subscription data:', err);
-        setError('Erreur lors du chargement des données');
+        const { data, error } = await supabase
+          .from('stripe_user_subscriptions')
+          .select('subscription_status, price_id, current_period_end')
+          .single();
+
+        if (error && error.code !== 'PGRST116') {
+          console.error('Error fetching subscription:', error);
+        } else if (data && data.subscription_status === 'active') {
+          setSubscription(data);
+        }
+      } catch (error) {
+        console.error('Error:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
-  }, []);
+    fetchSubscription();
+  }, [user]);
 
-  if (loading) {
-    return (
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="animate-pulse">
-          <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
-          <div className="h-3 bg-gray-200 rounded w-1/2"></div>
-        </div>
-      </div>
-    );
-  }
+  if (loading || !user) return null;
 
-  if (error) {
-    return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-        <div className="flex items-center">
-          <AlertCircle className="w-5 h-5 text-red-500 mr-2" />
-          <span className="text-red-700">{error}</span>
-        </div>
-      </div>
-    );
-  }
+  if (!subscription) return null;
 
-  // Check for active subscription or completed orders
-  const hasActiveAccess = subscription?.subscription_status === 'active' || 
-                         orders.some(order => order.order_status === 'completed');
-
-  const getAccessInfo = () => {
-    if (subscription?.subscription_status === 'active') {
-      const product = getProductByPriceId(subscription.price_id);
-      return {
-        type: 'subscription',
-        name: product?.name || 'Abonnement actif',
-        status: 'Actif'
-      };
-    }
-
-    const completedOrder = orders.find(order => order.order_status === 'completed');
-    if (completedOrder) {
-      return {
-        type: 'purchase',
-        name: 'Accès à Aura Lite',
-        status: 'Acheté'
-      };
-    }
-
-    return null;
-  };
-
-  const accessInfo = getAccessInfo();
-
-  if (!accessInfo) {
-    return (
-      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-        <div className="flex items-center">
-          <AlertCircle className="w-5 h-5 text-gray-500 mr-2" />
-          <span className="text-gray-700">Aucun accès actif</span>
-        </div>
-      </div>
-    );
-  }
+  const product = getProductByPriceId(subscription.price_id);
+  const expiryDate = subscription.current_period_end 
+    ? new Date(subscription.current_period_end * 1000).toLocaleDateString('fr-FR')
+    : null;
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-gradient-to-r from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg p-4"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white p-4 rounded-lg shadow-lg"
     >
-      <div className="flex items-center">
-        <Crown className="w-5 h-5 text-indigo-600 mr-2" />
-        <div>
-          <h3 className="font-medium text-indigo-900">{accessInfo.name}</h3>
-          <p className="text-sm text-indigo-700">Statut: {accessInfo.status}</p>
+      <div className="flex items-center gap-3">
+        <Crown className="w-5 h-5 text-yellow-300" />
+        <div className="flex-1">
+          <div className="flex items-center gap-2">
+            <span className="font-medium">{product?.name || 'Plan actif'}</span>
+            <CheckCircle className="w-4 h-4 text-green-300" />
+          </div>
+          {expiryDate && (
+            <div className="text-sm text-indigo-100">
+              Valide jusqu'au {expiryDate}
+            </div>
+          )}
         </div>
       </div>
     </motion.div>
