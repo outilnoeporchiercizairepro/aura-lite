@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Crown, AlertCircle } from 'lucide-react';
+import { Crown, CircleAlert as AlertCircle } from 'lucide-react';
 import { getUserSubscription, getUserOrders } from '../lib/stripe';
 import { getProductByPriceId } from '../stripe-config';
 

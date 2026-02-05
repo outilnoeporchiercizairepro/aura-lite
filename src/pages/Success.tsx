@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle, ArrowRight, Home } from 'lucide-react';
+import { CircleCheck as CheckCircle, ArrowRight, Hop as Home } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 
 export const Success: React.FC = () => {

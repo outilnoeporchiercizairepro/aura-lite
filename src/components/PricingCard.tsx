@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Loader2 } from 'lucide-react';
+import { Check, Loader as Loader2 } from 'lucide-react';
 import { createCheckoutSession } from '../lib/stripe';
 import { formatPrice, type StripeProduct } from '../stripe-config';
 
