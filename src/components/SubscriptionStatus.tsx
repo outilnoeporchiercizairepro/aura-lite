@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Crown, CheckCircle } from 'lucide-react';
+import { Crown, CircleCheck as CheckCircle } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../hooks/useAuth';
 import { getProductByPriceId } from '../stripe-config';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Home, Package, User, LogOut } from 'lucide-react';
+import { Hop as Home, Package, User, LogOut } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 
 export const Navbar: React.FC = () => {
