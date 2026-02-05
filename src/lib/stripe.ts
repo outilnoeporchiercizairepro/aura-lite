@@ -1,29 +1,32 @@
 import { supabase } from './supabase';
-import { STRIPE_PRODUCTS, type StripeProduct } from '../stripe-config';
+import { type StripeProduct } from '../stripe-config';
 
-export const createCheckoutSession = async (product: StripeProduct) => {
-  const { data: { user } } = await supabase.auth.getUser();
-  
-  if (!user) {
-    throw new Error('User must be authenticated');
+export const createCheckoutSession = async (product: StripeProduct, email?: string) => {
+  const { data: { session } } = await supabase.auth.getSession();
+
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+
+  if (session?.access_token) {
+    headers['Authorization'] = `Bearer ${session.access_token}`;
   }
 
-  const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-checkout`, {
+  const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-checkout`, {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-      'Content-Type': 'application/json',
-    },
+    headers,
     body: JSON.stringify({
-      priceId: product.priceId,
+      price_id: product.priceId,
       mode: product.mode,
-      successUrl: `${window.location.origin}/success`,
-      cancelUrl: `${window.location.origin}/pricing`,
+      email: email || undefined,
+      success_url: `${window.location.origin}/success`,
+      cancel_url: `${window.location.origin}/`,
     }),
   });
 
   if (!response.ok) {
-    throw new Error('Failed to create checkout session');
+    const errorData = await response.json();
+    throw new Error(errorData.error || 'Failed to create checkout session');
   }
 
   const { url } = await response.json();

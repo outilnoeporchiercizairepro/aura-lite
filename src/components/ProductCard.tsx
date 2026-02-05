@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { StripeProduct, formatPrice } from '../stripe-config'
 import { Check, Loader as Loader2, Mail } from 'lucide-react'
+import { createCheckoutSession } from '../lib/stripe'
+import { supabase } from '../lib/supabase'
 
 interface ProductCardProps {
   product: StripeProduct
@@ -12,42 +14,25 @@ export function ProductCard({ product }: ProductCardProps) {
   const [email, setEmail] = useState('')
 
   const handlePurchase = async () => {
-    if (!showEmailInput) {
-      setShowEmailInput(true)
-      return
-    }
-
-    if (!email || !email.includes('@')) {
-      alert('Veuillez entrer une adresse email valide')
-      return
-    }
-
     setLoading(true)
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-checkout`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          price_id: product.priceId,
-          mode: product.mode,
-          email: email,
-          success_url: `${window.location.origin}/success`,
-          cancel_url: `${window.location.origin}/`,
-        }),
-      })
+      const { data: { session } } = await supabase.auth.getSession()
 
-      const data = await response.json()
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Erreur lors de la création de la session de paiement')
+      if (!session && !showEmailInput) {
+        setLoading(false)
+        setShowEmailInput(true)
+        return
       }
 
-      if (data.url) {
-        window.location.href = data.url
+      if (!session && (!email || !email.includes('@'))) {
+        setLoading(false)
+        alert('Veuillez entrer une adresse email valide')
+        return
       }
+
+      const checkoutUrl = await createCheckoutSession(product, email || undefined)
+      window.location.href = checkoutUrl
     } catch (error: any) {
       console.error('Erreur lors de l\'achat:', error)
       alert(error.message || 'Une erreur est survenue lors de l\'achat')
@@ -60,10 +45,10 @@ export function ProductCard({ product }: ProductCardProps) {
     <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 hover:shadow-xl transition-shadow">
       <div className="text-center mb-6">
         <h3 className="text-2xl font-bold text-gray-900 mb-2">{product.name}</h3>
-        <div className="text-4xl font-bold text-indigo-600 mb-4">
+        <div className="text-4xl font-bold text-blue-600 mb-4">
           {formatPrice(product.price, product.currency)}
         </div>
-        <span className="inline-block px-3 py-1 bg-indigo-100 text-indigo-800 text-sm font-medium rounded-full">
+        <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
           {product.mode === 'payment' ? 'Paiement unique' : 'Abonnement'}
         </span>
       </div>
@@ -75,11 +60,11 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="space-y-3 mb-8">
         <div className="flex items-center text-sm text-gray-600">
           <Check className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
-          Formation complète AAA
+          Formation complete AAA
         </div>
         <div className="flex items-center text-sm text-gray-600">
           <Check className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
-          Maîtrise de n8n
+          Maitrise de n8n
         </div>
         <div className="flex items-center text-sm text-gray-600">
           <Check className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
@@ -87,7 +72,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
         <div className="flex items-center text-sm text-gray-600">
           <Check className="h-4 w-4 text-green-500 mr-2 flex-shrink-0" />
-          Monétisation des services
+          Monetisation des services
         </div>
       </div>
 
@@ -106,7 +91,7 @@ export function ProductCard({ product }: ProductCardProps) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="votre@email.com"
-              className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               required
             />
           </div>
@@ -116,7 +101,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <button
         onClick={handlePurchase}
         disabled={loading}
-        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
       >
         {loading ? (
           <>
@@ -124,7 +109,7 @@ export function ProductCard({ product }: ProductCardProps) {
             Redirection...
           </>
         ) : (
-          showEmailInput ? 'Continuer vers le paiement' : 'Acheter maintenant'
+          showEmailInput ? 'Continuer vers le paiement' : 'Commencer avec Aura'
         )}
       </button>
     </div>
