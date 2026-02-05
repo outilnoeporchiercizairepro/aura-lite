@@ -1,96 +1,95 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { CircleCheck as CheckCircle, ArrowRight, Hop as Home } from 'lucide-react'
-import { Header } from '../components/Header'
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { CheckCircle, ArrowRight, Home } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
 
-export function SuccessPage() {
-  const navigate = useNavigate()
+export const SuccessPage: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const sessionId = searchParams.get('session_id');
+  const [countdown, setCountdown] = useState(10);
 
   useEffect(() => {
-    // Refresh the page after a successful purchase to update subscription status
-    const timer = setTimeout(() => {
-      window.location.reload()
-    }, 3000)
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          window.location.href = '/';
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
 
-    return () => clearTimeout(timer)
-  }, [])
+    return () => clearInterval(timer);
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50">
-      <Header />
-      
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center">
-          <div className="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-8">
-            <CheckCircle className="h-12 w-12 text-green-600" />
-          </div>
-          
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Paiement réussi !
-          </h1>
-          
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Félicitations ! Votre achat a été traité avec succès. Vous avez maintenant accès à 
-            la formation Aura Lite complète.
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 flex items-center justify-center px-4">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-md w-full text-center"
+      >
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+          className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"
+        >
+          <CheckCircle className="w-12 h-12 text-green-600" />
+        </motion.div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-8 mb-8 max-w-2xl mx-auto">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-              Prochaines étapes
-            </h2>
-            
-            <div className="space-y-4 text-left">
-              <div className="flex items-start space-x-3">
-                <div className="flex-shrink-0 w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center mt-0.5">
-                  <span className="text-sm font-medium text-indigo-600">1</span>
-                </div>
-                <div>
-                  <h3 className="font-medium text-gray-900">Accès à la formation</h3>
-                  <p className="text-gray-600">Vous recevrez un email avec vos identifiants d'accès dans les prochaines minutes.</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-3">
-                <div className="flex-shrink-0 w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center mt-0.5">
-                  <span className="text-sm font-medium text-indigo-600">2</span>
-                </div>
-                <div>
-                  <h3 className="font-medium text-gray-900">Commencez votre apprentissage</h3>
-                  <p className="text-gray-600">Explorez les modules de formation et commencez à construire votre agence AAA.</p>
-                </div>
-              </div>
-              
-              <div className="flex items-start space-x-3">
-                <div className="flex-shrink-0 w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center mt-0.5">
-                  <span className="text-sm font-medium text-indigo-600">3</span>
-                </div>
-                <div>
-                  <h3 className="font-medium text-gray-900">Support communautaire</h3>
-                  <p className="text-gray-600">Rejoignez notre communauté pour échanger avec d'autres apprenants.</p>
-                </div>
-              </div>
-            </div>
-          </div>
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="text-3xl font-bold text-gray-900 mb-4"
+        >
+          Paiement réussi !
+        </motion.h1>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={() => navigate('/')}
-              className="inline-flex items-center px-6 py-3 border border-gray-300 text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors"
-            >
-              <Home className="h-5 w-5 mr-2" />
-              Retour à l'accueil
-            </button>
-            
-            <button
-              onClick={() => window.open('mailto:support@auralite.com', '_blank')}
-              className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition-colors"
-            >
-              Contacter le support
-              <ArrowRight className="h-5 w-5 ml-2" />
-            </button>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="text-gray-600 mb-8 leading-relaxed"
+        >
+          Félicitations ! Votre achat a été traité avec succès. 
+          Vous avez maintenant accès à Aura Lite.
+        </motion.p>
+
+        {sessionId && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="bg-gray-50 rounded-lg p-4 mb-6"
+          >
+            <p className="text-sm text-gray-500 mb-1">ID de session</p>
+            <p className="text-xs font-mono text-gray-700 break-all">{sessionId}</p>
+          </motion.div>
+        )}
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+          className="space-y-4"
+        >
+          <Link
+            to="/"
+            className="w-full bg-indigo-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-indigo-700 transition-colors duration-200 flex items-center justify-center gap-2"
+          >
+            <Home className="w-4 h-4" />
+            Retour à l'accueil
+          </Link>
+
+          <div className="text-sm text-gray-500">
+            Redirection automatique dans {countdown} seconde{countdown > 1 ? 's' : ''}
           </div>
-        </div>
-      </main>
+        </motion.div>
+      </motion.div>
     </div>
-  )
-}
+  );
+};

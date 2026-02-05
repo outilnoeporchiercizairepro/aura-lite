@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Loader2 } from 'lucide-react';
+import { ShoppingCart, Loader as Loader2 } from 'lucide-react';
 import { StripeProduct, formatPrice } from '../stripe-config';
 import { useAuth } from '../hooks/useAuth';
 
