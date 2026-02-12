@@ -497,7 +497,7 @@ function LandingPage() {
             <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
             
             <div className="mb-10">
-               <h4 className="text-7xl font-bold text-white mb-3 tracking-tighter">500 €</h4>
+               <h4 className="text-7xl font-bold text-white mb-3 tracking-tighter">750 €</h4>
                <div className="inline-block px-4 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-bold uppercase tracking-[0.2em] text-[10px]">
                  — accès immédiat
                </div>

@@ -6,7 +6,7 @@ const pricingPlans = [
   {
     name: 'Accès à Aura Lite',
     description: "Accès à l'académie Aura Lite",
-    price: '500,00 €'
+    price: '750,00 €'
   }
 ];
 
