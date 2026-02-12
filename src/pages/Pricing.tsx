@@ -1,7 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { PricingCard } from '../components/PricingCard';
-import { STRIPE_PRODUCTS } from '../stripe-config';
+
+const pricingPlans = [
+  {
+    name: 'Accès à Aura Lite',
+    description: "Accès à l'académie Aura Lite",
+    price: '500,00 €'
+  }
+];
 
 export const Pricing: React.FC = () => {
   return (
@@ -23,10 +30,12 @@ export const Pricing: React.FC = () => {
 
         <div className="flex justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl">
-            {STRIPE_PRODUCTS.map((product, index) => (
+            {pricingPlans.map((plan, index) => (
               <PricingCard
-                key={product.id}
-                product={product}
+                key={plan.name}
+                name={plan.name}
+                description={plan.description}
+                price={plan.price}
                 isPopular={index === 0}
               />
             ))}
@@ -40,7 +49,7 @@ export const Pricing: React.FC = () => {
           className="text-center mt-16"
         >
           <p className="text-gray-600 mb-4">
-            Paiement sécurisé avec Stripe
+            Rejoignez-nous dès maintenant
           </p>
           <div className="flex justify-center space-x-4 text-sm text-gray-500">
             <span>✓ Garantie 30 jours</span>

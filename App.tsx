@@ -29,9 +29,7 @@ import {
   Rocket,
   TrendingUp
 } from 'lucide-react';
-import { useAuth } from './src/hooks/useAuth';
-import { supabase } from './src/lib/supabase';
-import { STRIPE_PRODUCTS } from './src/stripe-config';
+const CALENDLY_URL = 'https://calendly.com/aura-academie/appel-de-decouverte-aura-lite';
 
 // --- Shared & Visual System Components ---
 
@@ -120,46 +118,9 @@ function LandingPage() {
   const { scrollYProgress } = useScroll();
   const arcScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
   const arcOpacity = useTransform(scrollYProgress, [0, 0.4], [0.7, 0.1]);
-  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
-  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
-  const handleCheckout = async () => {
-    try {
-      setIsCheckoutLoading(true);
-      setCheckoutError(null);
-
-      const product = STRIPE_PRODUCTS[0];
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/stripe-checkout`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            price_id: product.priceId,
-            mode: product.mode,
-            success_url: `${window.location.origin}/success`,
-            cancel_url: window.location.href,
-          }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Erreur lors de la création de la session de paiement');
-      }
-
-      if (data.url) {
-        window.location.href = data.url;
-      }
-    } catch (error: any) {
-      console.error('Checkout error:', error);
-      setCheckoutError(error.message || 'Une erreur est survenue');
-    } finally {
-      setIsCheckoutLoading(false);
-    }
+  const handleJoinClick = () => {
+    window.open(CALENDLY_URL, '_blank');
   };
 
   return (
@@ -227,15 +188,14 @@ function LandingPage() {
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-5 items-center">
               <motion.button
-                onClick={handleCheckout}
-                disabled={isCheckoutLoading}
+                onClick={handleJoinClick}
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
-                className="relative group overflow-hidden px-10 py-5 rounded-xl bg-indigo-600 text-white font-bold transition-all shadow-[0_20px_50px_rgba(79,70,229,0.3)] disabled:opacity-50 disabled:cursor-not-allowed"
+                className="relative group overflow-hidden px-10 py-5 rounded-xl bg-indigo-600 text-white font-bold transition-all shadow-[0_20px_50px_rgba(79,70,229,0.3)]"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <span className="relative flex items-center gap-3 text-lg">
-                  {isCheckoutLoading ? 'Chargement...' : 'Commencer avec Aura Lite'} <ArrowRight size={20} />
+                  Rejoindre Aura <ArrowRight size={20} />
                 </span>
               </motion.button>
               <button
@@ -548,18 +508,14 @@ function LandingPage() {
             </p>
             
             <motion.button
-              onClick={handleCheckout}
-              disabled={isCheckoutLoading}
+              onClick={handleJoinClick}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full py-6 rounded-xl bg-indigo-600 text-white font-bold text-xl transition-all shadow-xl hover:bg-indigo-500 mb-6 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-6 rounded-xl bg-indigo-600 text-white font-bold text-xl transition-all shadow-xl hover:bg-indigo-500 mb-6"
             >
-              {isCheckoutLoading ? 'Chargement...' : 'Rejoindre Aura Lite'}
+              Rejoindre Aura Lite
             </motion.button>
-            {checkoutError && (
-              <div className="mb-6 text-red-400 text-sm text-center">{checkoutError}</div>
-            )}
-            <div className="text-gray-600 text-[10px] uppercase tracking-widest font-bold">Paiement sécurisé par Stripe</div>
+            <div className="text-gray-600 text-[10px] uppercase tracking-widest font-bold">Réservez votre appel découverte</div>
           </div>
         </motion.div>
       </section>

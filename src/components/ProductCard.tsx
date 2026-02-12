@@ -1,29 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingCart, Loader as Loader2 } from 'lucide-react';
-import { StripeProduct, formatPrice } from '../stripe-config';
-import { useAuth } from '../hooks/useAuth';
+import { Calendar } from 'lucide-react';
 
 interface ProductCardProps {
-  product: StripeProduct;
-  onPurchase: (priceId: string) => Promise<void>;
+  name: string;
+  description: string;
+  price: string;
 }
 
-export const ProductCard: React.FC<ProductCardProps> = ({ product, onPurchase }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const { user } = useAuth();
+const CALENDLY_URL = 'https://calendly.com/aura-academie/appel-de-decouverte-aura-lite';
 
-  const handlePurchase = async () => {
-    if (!user) return;
-    
-    setIsLoading(true);
-    try {
-      await onPurchase(product.priceId);
-    } catch (error) {
-      console.error('Purchase failed:', error);
-    } finally {
-      setIsLoading(false);
-    }
+export const ProductCard: React.FC<ProductCardProps> = ({ name, description, price }) => {
+  const handleJoinClick = () => {
+    window.open(CALENDLY_URL, '_blank');
   };
 
   return (
@@ -33,35 +22,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onPurchase })
       className="bg-white rounded-xl shadow-lg p-6 border border-gray-100 hover:shadow-xl transition-shadow duration-300"
     >
       <div className="mb-4">
-        <h3 className="text-xl font-bold text-gray-900 mb-2">{product.name}</h3>
-        <p className="text-gray-600 text-sm leading-relaxed">{product.description}</p>
+        <h3 className="text-xl font-bold text-gray-900 mb-2">{name}</h3>
+        <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
       </div>
-      
+
       <div className="mb-6">
-        <div className="text-3xl font-bold text-indigo-600">
-          {formatPrice(product.price, product.currencySymbol)}
+        <div className="text-3xl font-bold text-blue-600">
+          {price}
         </div>
         <div className="text-sm text-gray-500 mt-1">
-          {product.mode === 'payment' ? 'Paiement unique' : 'Abonnement'}
+          Paiement unique
         </div>
       </div>
 
       <button
-        onClick={handlePurchase}
-        disabled={!user || isLoading}
-        className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-indigo-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors duration-200 flex items-center justify-center gap-2"
+        onClick={handleJoinClick}
+        className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center gap-2"
       >
-        {isLoading ? (
-          <>
-            <Loader2 className="w-4 h-4 animate-spin" />
-            Traitement...
-          </>
-        ) : (
-          <>
-            <ShoppingCart className="w-4 h-4" />
-            {user ? 'Acheter maintenant' : 'Connexion requise'}
-          </>
-        )}
+        <Calendar className="w-4 h-4" />
+        Rejoindre Aura
       </button>
     </motion.div>
   );
