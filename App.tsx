@@ -85,23 +85,6 @@ const SectionHeader: React.FC<{ title: string; subtitle?: string }> = ({ title, 
   </div>
 );
 
-const HeroVideo: React.FC = () => {
-  return (
-    <div className="w-full max-w-5xl mx-auto px-4 my-8 relative">
-      <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 via-transparent to-purple-500/20 rounded-2xl blur-sm opacity-50" />
-      <div className="relative aspect-video rounded-xl overflow-hidden border border-white/20 bg-black shadow-[0_0_100px_rgba(79,70,229,0.3)]">
-        <iframe
-          className="absolute inset-0 w-full h-full"
-          src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-          title="Aura Lite - Agents IA & n8n"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
-      </div>
-    </div>
-  );
-};
 
 // --- Animations ---
 
@@ -169,8 +152,6 @@ function LandingPage() {
             <motion.p variants={fadeInUp} className="text-gray-400 text-base md:text-lg max-w-2xl mb-10 font-light leading-relaxed opacity-80">
               Aura Lite donne les bases opérationnelles en automatisation et agents IA pour passer à l'action, créer de la valeur et préparer ton agence AAA de manière structurée.
             </motion.p>
-
-            <HeroVideo />
 
             <motion.div variants={fadeInUp} className="flex flex-wrap justify-center gap-3 mb-10">
               {[
